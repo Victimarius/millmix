@@ -42,19 +42,21 @@ implements ICommand {
             if (args.length < 2) {
                 throw new WrongUsageException(getUsage(sender), new Object[0]);
             }
+            System.out.println("start");
             Entity entity = CommandBase.getEntity((MinecraftServer)server,
                                                   (ICommandSender)sender,
                                                   (String)args[0]);
             MillWorldData worldData = Mill.getMillWorld(world);
             List<Building> townHalls =
                        CommandUtilities.getMatchingVillages(worldData, args[1]);
+            System.out.println(townHalls.toString());
             if (townHalls.size() == 0) {
                 throw new CommandException
                     (LanguageUtilities.string("command.tp_nomatchingvillage"),
                      new Object[0]);
             }
 
-            int checkarg = 0;
+            int checkarg = 1;
             if (townHalls.size() > 1) {
                 System.out.println("Multiple matching villages, defaulting" +
                                    " to first one unless index is specified.");
@@ -64,7 +66,7 @@ implements ICommand {
                     catch (NumberFormatException ex) {
                         throw new CommandException("Third arg must be an integer");
                     }
-                    if (checkarg > townHalls.size()) {
+                    if (checkarg > townHalls.size() || checkarg < 1) {
                         throw new CommandException
                           (String.format("Error: Valid index 1-%d",
                                          townHalls.size()));
