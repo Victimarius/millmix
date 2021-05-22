@@ -1,4 +1,4 @@
-package com.yourname.modid.core;
+package vict.millmix.core;
 
 import net.minecraftforge.fml.relauncher.CoreModManager;
 import net.minecraftforge.fml.relauncher.IFMLLoadingPlugin;
@@ -11,25 +11,14 @@ import java.net.URISyntaxException;
 import java.net.URL;
 import java.security.CodeSource;
 import java.util.Map;
+import java.net.URLClassLoader;
+import net.minecraft.launchwrapper.LaunchClassLoader;
 
-public class CoreMod implements IFMLLoadingPlugin {
+public class MillMixCoreMod implements IFMLLoadingPlugin {
 
-    public CoreMod() {
+    public MillMixCoreMod() {
+        
         MixinBootstrap.init();
-
-        CodeSource codeSource = this.getClass().getProtectionDomain().getCodeSource();
-        if (codeSource != null) {
-            URL location = codeSource.getLocation();
-            try {
-                File file = new File(location.toURI());
-                if (file.isFile()) {
-                    CoreModManager.getReparseableCoremods().remove(file.getName());
-                }
-            } catch (URISyntaxException ignored) {}
-        } else {
-            LogManager.getLogger().warn("No CodeSource, if this is not a development environment we might run into problems!");
-            LogManager.getLogger().warn(this.getClass().getProtectionDomain());
-        }
     }
 
     @Override
@@ -50,10 +39,15 @@ public class CoreMod implements IFMLLoadingPlugin {
 
     @Override
     public void injectData(Map<String, Object> data) {
+
     }
 
     @Override
     public String getAccessTransformerClass() {
         return null;
     }
+
+
+
 }
+

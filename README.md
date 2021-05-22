@@ -1,2 +1,2 @@
-# forge-mixin-example
-An example for using Mixin in Minecraft Forge
+# MillMix
+A hastily put together attempt at using mixins to modify Millenaire.
