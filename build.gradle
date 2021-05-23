@@ -17,7 +17,7 @@ apply plugin: 'org.spongepowered.mixin'
 apply plugin: 'eclipse'
 apply plugin: 'maven-publish'
 
-version = '1.0.0'
+//version = '1.0.0'
 group = 'vict.millmix' // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = 'millmix'
 
@@ -124,7 +124,7 @@ processResources {
         include 'mcmod.info'
 
         // replace version and mcversion
-        //expand 'version':project.version, 'mcversion':project.minecraft.version
+        expand 'version':project.version, 'mcversion':project.minecraft.version
     }
 
     // copy everything else except the mcmod.info
