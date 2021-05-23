@@ -12,6 +12,8 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.millenaire.common.entity.MillVillager;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
+
 
 import zone.rong.mixinbooter.MixinLoader;
 
@@ -21,6 +23,7 @@ import net.minecraft.block.BlockDoor;
 import  net.minecraft.block.Block ;
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.EnumHand;
 
 @Mixin(MillVillager.class)
 public abstract class MixinMillVillager extends EntityCreature  {
@@ -35,12 +38,13 @@ public abstract class MixinMillVillager extends EntityCreature  {
             ci.cancel();
         } 
     }
-    /* idea: change millvillager's toggleDoor to use BlockDoor's toggleDoor
+    /**
+     * idea: change millvillager's toggleDoor to use BlockDoor's toggleDoor
      * @author Vict
      * @reason toggleDoor doesn't make use of BlockDoor.toggleDoor(),
      * causing issues when other mods override the behaviour of doors.
      * This way we don't manually set block states, but instead tell
-     * the blocks to change their staes.
+     * the blocks to change their states.
      */
     @Overwrite(remap=false)
     private void toggleDoor(Point p) {
@@ -54,4 +58,24 @@ public abstract class MixinMillVillager extends EntityCreature  {
             door.toggleDoor(world,doorPos, !isOpen);
         }
     }
+    //this was method="processInteract" but for some reason can't find mappings
+    // I dunno llol I'm fucking lost this'll do for now
+    @Inject(method="func_184645_a", at=@At("HEAD"),cancellable=true,remap=false)
+    private void processInteract(EntityPlayer entityplayer,
+                                 EnumHand hand,
+                                 CallbackInfoReturnable ci) {
+        EntityLivingBase target = this.getAttackTarget();
+        if (target!=null && target.equals(entityplayer)) {
+            ci.cancel();
+        }
+    }
+    @Inject(method="interactSpecial", at=@At("HEAD"),cancellable=true,remap=false)
+    private void interactSpecial(EntityPlayer entityplayer,
+                                 CallbackInfoReturnable ci) {
+        EntityLivingBase target = this.getAttackTarget();
+        if (target!=null && target.equals(entityplayer)) {
+            ci.cancel();
+        }
+    }
+
 }

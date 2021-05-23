@@ -68,7 +68,7 @@ repositories {
 dependencies {
 
 
-    compile files('libs/millenaire-8.1.0.jar')
+    compile files('libs/millenaire-8.1.0-deobf.jar')
     compile files('libs/mixinbooter-1.1.jar')
 
 
@@ -114,6 +114,8 @@ sourceSets {
 
 jar.finalizedBy('reobfJar')
 
+
+
 processResources {
     // this will ensure that this task is redone when the versions change.
     inputs.property "version", project.version
@@ -133,5 +135,6 @@ processResources {
     }
 
     rename '(.+_at.cfg)', 'META-INF/$1'
+
 
 }
